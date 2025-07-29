@@ -1,0 +1,388 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4A90E2;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2C5282;
+}
+
+/* Utility classes */
+@layer components {
+  .btn-primary {
+    @apply bg-novaxis-primary hover:bg-novaxis-dark text-white font-semibold py-3 px-6 rounded-full transition-all duration-150 shadow-novaxis hover:shadow-novaxis-lg transform hover:-translate-y-1;
+  }
+  
+  .btn-secondary {
+    @apply bg-transparent border-2 border-novaxis-primary text-novaxis-primary hover:bg-novaxis-primary hover:text-white font-semibold py-3 px-6 rounded-full transition-all duration-150;
+  }
+  
+  .card-hover {
+    @apply transition-all duration-200 hover:-translate-y-2 hover:shadow-novaxis-lg;
+  }
+  
+  .gradient-text {
+    @apply bg-gradient-to-r from-novaxis-primary to-novaxis-secondary bg-clip-text text-transparent;
+  }
+  
+  .section-padding {
+    @apply py-20 px-4 md:px-8 lg:px-16;
+  }
+  
+  .container-custom {
+    @apply max-w-7xl mx-auto;
+  }
+
+  /* Mejoras para pantallas extra pequeñas */
+  @media (max-width: 359px) {
+    .section-padding {
+      @apply py-16 px-3;
+    }
+    
+    .container-custom {
+      @apply px-2;
+    }
+  }
+}
+
+/* Height-based responsive utilities for Hero section */
+@layer utilities {
+  /* Logo responsive sizing for mobile */
+  .logo-mobile {
+    height: clamp(36px, 12vw, 50px);
+  }
+  
+  /* Navbar mobile fixes */
+  @media (max-width: 400px) {
+    .navbar-mobile {
+      padding: 0 16px;
+    }
+    
+    .navbar-gap {
+      gap: 8px;
+    }
+  }
+  
+  @media (max-height: 800px) {
+    .hero-tight {
+      @apply py-2;
+    }
+    
+    .hero-tight .hero-title {
+      font-size: clamp(1.5rem, 8vw, 2.75rem) !important;
+      margin-bottom: 0.5rem !important;
+    }
+    
+    .hero-tight .hero-subtitle {
+      font-size: clamp(0.9rem, 1.8vw, 1.5rem) !important;
+      margin-bottom: 0.5rem !important;
+    }
+    
+    .hero-tight .hero-subtitle-span {
+      font-size: clamp(0.8rem, 1.5vw, 1.25rem) !important;
+      margin-top: 0.25rem !important;
+    }
+    
+    .hero-tight .hero-stat-number {
+      font-size: clamp(1.1rem, 3vw, 2.5rem) !important;
+      margin-bottom: 0.25rem !important;
+    }
+    
+    .hero-tight .hero-stat-label {
+      font-size: clamp(0.75rem, 1.3vw, 1rem) !important;
+    }
+    
+    .hero-tight .hero-stats {
+      gap: 0.5rem !important;
+      margin-bottom: 0.75rem !important;
+    }
+    
+    .hero-tight .hero-cta-container {
+      margin-bottom: 0.5rem !important;
+      gap: 0.75rem !important;
+    }
+  }
+  
+  @media (max-height: 700px) {
+    .hero-tight .hero-stats {
+      margin-bottom: 0.5rem !important;
+    }
+    
+    .hero-tight .hero-cta-container {
+      margin-bottom: 0.25rem !important;
+    }
+  }
+  
+  /* Stats card equal heights - improved for mobile */
+  .hero-stat-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 60px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 0.5rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    transition: all 0.3s ease;
+  }
+  
+  /* Mobile-first responsive grid for hero stats */
+  @media (max-width: 450px) {
+    .hero-stats {
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 0.5rem !important;
+    }
+    
+    .hero-stat-card {
+      min-height: 50px;
+      padding: 0.5rem;
+    }
+  }
+  
+  @media (max-width: 640px) {
+    .hero-stat-card {
+      min-height: 65px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .hero-stat-card {
+      min-height: 55px;
+    }
+  }
+  
+  /* Stats section card equal heights - improved icon centering */
+  .stats-card {
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Specific mobile improvements for stats section */
+  @media (max-width: 350px) {
+    .stats-section-grid {
+      grid-template-columns: 1fr !important;
+      gap: 1.5rem !important;
+    }
+  }
+  
+  @media (max-width: 1024px) {
+    .stats-card {
+      min-height: 260px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .stats-card {
+      min-height: 240px;
+    }
+  }
+  
+  @media (max-width: 640px) {
+    .stats-card {
+      min-height: 220px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .stats-card {
+      min-height: 200px;
+    }
+  }
+  
+  /* Projects card equal heights */
+  .project-card {
+    min-height: 520px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .project-card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  @media (max-width: 1024px) {
+    .project-card {
+      min-height: 480px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .project-card {
+      min-height: 440px;
+    }
+  }
+  
+  @media (max-width: 640px) {
+    .project-card {
+      min-height: 400px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .project-card {
+      min-height: 380px;
+    }
+  }
+  
+  /* Services card equal heights */
+  .service-card {
+    min-height: 380px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .service-card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  @media (max-width: 1024px) {
+    .service-card {
+      min-height: 360px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .service-card {
+      min-height: 340px;
+    }
+  }
+  
+  @media (max-width: 640px) {
+    .service-card {
+      min-height: 320px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .service-card {
+      min-height: 300px;
+    }
+  }
+  
+  /* Team card equal heights */
+  .team-card {
+    min-height: 480px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .team-card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  @media (max-width: 1024px) {
+    .team-card {
+      min-height: 460px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .team-card {
+      min-height: 440px;
+    }
+  }
+  
+  @media (max-width: 640px) {
+    .team-card {
+      min-height: 420px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .team-card {
+      min-height: 400px;
+    }
+  }
+}
+
+/* Animation delays for staggered effects */
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+.delay-600 { animation-delay: 0.6s; }
+
+/* Loading spinner */
+.spinner {
+  @apply inline-block w-4 h-4 border-2 border-current border-r-transparent rounded-full animate-spin;
+}
+
+/* Glass morphism effects */
+.glass-navbar {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}

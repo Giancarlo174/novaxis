@@ -1,0 +1,123 @@
+# Node modules
+node_modules/
+
+# Build output
+.next/
+out/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# VSCode
+.vscode/
+
+# Private images (team)
+public/team/
+
+# Other private/public files
+*.pem
+*.key
+*.crt
+*.p12
+*.jks
+*.bak
+*.tmp
+
+# Coverage
+coverage/
+
+# Misc
+*.swp
+*.swo
+*.swn
+*.lock
+
+# Mac system files
+__MACOSX/
+
+# Windows system files
+Desktop.ini
+
+# Postman files
+*.postman_collection.json
+*.postman_environment.json
+
+# Python cache (if any)
+__pycache__/
+*.pyc
+
+# Next.js static export
+out/
+
+# Other
+.idea/
+*.iml
+
+# Ignore all test snapshots
+**/__snapshots__/
+
+# Ignore all test output
+**/test-output/
+
+# Ignore all test coverage
+**/coverage/
+
+# Ignore all temp files
+*.tmp
+*.temp
+
+# Ignore all log files
+*.log
+
+# Ignore all backup files
+*.bak
+
+# Ignore all lock files
+*.lock
+
+# Ignore all cache files
+.cache/
+
+# Ignore all dist files
+/dist/
+
+# Ignore all generated files
+/generated/
+
+# Ignore all .env files
+*.env*
+
+# Ignore all .DS_Store files
+*.DS_Store
+
+# Ignore all Thumbs.db files
+*.Thumbs.db
+
+# Ignore all .vscode files
+.vscode/
+
+# Ignore all .idea files
+.idea/
+
+# Ignore all .iml files
+*.iml
+
+# Ignore all .github files
+.github/
+
+# Ignore .vercel deployment folder
+.vercel/
