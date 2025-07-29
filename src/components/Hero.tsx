@@ -4,9 +4,51 @@ import { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { ChevronDown, Building, Hammer, HardHat } from 'lucide-react'
 
+// Hook personalizado para la animación de conteo
+const useCountAnimation = (end: number, duration: number = 2, start: number = 0) => {
+  const [count, setCount] = useState(start)
+  const [isAnimating, setIsAnimating] = useState(true)
+
+  useEffect(() => {
+    if (!isAnimating) return
+
+    // Calculamos el incremento basado en la duración y FPS deseado
+    const fps = 60
+    const totalFrames = Math.floor(duration * fps)
+    
+    let currentCount = start
+    let frameCount = 0
+
+    const interval = setInterval(() => {
+      frameCount++
+      
+      // Uso de una curva de aceleración moderada (easeOutQuad) - menos agresiva que cubic
+      const progress = frameCount / totalFrames
+      const easeOutQuad = 1 - Math.pow(1 - progress, 2)
+      currentCount = start + (end - start) * easeOutQuad
+      
+      // Nos aseguramos de llegar exactamente al número final
+      if (frameCount >= totalFrames) {
+        setCount(end)
+        setIsAnimating(false)
+        clearInterval(interval)
+      } else {
+        // Redondeamos para números enteros
+        setCount(Math.floor(currentCount))
+      }
+    }, 1000 / fps)
+
+    return () => clearInterval(interval)
+  }, [end, duration, start, isAnimating])
+
+  // Retorna el valor actual y un método para reiniciar la animación
+  return { value: count, restart: () => setIsAnimating(true) }
+}
+
 export default function Hero() {
   const heroRef = useRef<HTMLElement>(null)
   const [isShortHeight, setIsShortHeight] = useState(false)
+  const [shouldAnimate, setShouldAnimate] = useState(false)
   
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -14,6 +56,22 @@ export default function Hero() {
   })
 
   const y = useTransform(scrollYProgress, [0, 1], ['0%', '30%'])
+  
+  // Contadores animados con velocidad moderada (1.8 segundos)
+  const proyectosCount = useCountAnimation(250, 2.0, 0)
+  const empleadosCount = useCountAnimation(500, 2.0, 0)
+  const anosCount = useCountAnimation(15, 2.0, 0)
+  const beneficiadosCount = useCountAnimation(50, 2.0, 0)
+  
+  // Iniciamos la animación después de que se monte el componente
+  useEffect(() => {
+    // Retraso moderado de 600ms
+    const timer = setTimeout(() => {
+      setShouldAnimate(true)
+    }, 600)
+    
+    return () => clearTimeout(timer)
+  }, [])
 
   // Detect short height viewports
   useEffect(() => {
@@ -209,10 +267,30 @@ export default function Hero() {
             className="hero-stats grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-2 xs:gap-3 md:gap-6 xl:gap-8 justify-center max-w-5xl mx-auto mb-3 xs:mb-4 md:mb-6 xl:mb-8 px-4"
           >
             {[
-              { number: '250+', label: 'Proyectos Concluidos', index: 0 },
-              { number: '500+', label: 'Empleados Directos e Indirectos', index: 1 },
-              { number: '15+', label: 'Años Fundados', index: 2 },
-              { number: '50K+', label: 'Miles de Panameños Beneficiados', index: 3 },
+              { 
+                number: shouldAnimate ? `${proyectosCount.value}+` : '0+', 
+                finalNumber: '250+',
+                label: 'Proyectos Concluidos', 
+                index: 0 
+              },
+              { 
+                number: shouldAnimate ? `${empleadosCount.value}+` : '0+', 
+                finalNumber: '500+',
+                label: 'Empleados Directos e Indirectos', 
+                index: 1 
+              },
+              { 
+                number: shouldAnimate ? `${anosCount.value}+` : '0+', 
+                finalNumber: '15+',
+                label: 'Años Fundados', 
+                index: 2 
+              },
+              { 
+                number: shouldAnimate ? `${beneficiadosCount.value}K+` : '0K+', 
+                finalNumber: '50K+',
+                label: 'Miles de Panameños Beneficiados', 
+                index: 3 
+              },
             ].map((stat, index) => (
               <motion.div
                 key={stat.label}
@@ -296,9 +374,18 @@ export default function Hero() {
                           : '0 0 0 rgba(255,255,255,0)',
                         filter: activeIndex === stat.index
                           ? 'brightness(2) contrast(1.5)'
-                          : 'brightness(1) contrast(1)'
+                          : 'brightness(1) contrast(1)',
+                        scale: shouldAnimate && stat.number !== stat.finalNumber ? [1, 1.1, 1] : 1
                       }}
-                      transition={{ duration: GLOW_DURATION, ease: 'easeInOut' }}
+                      transition={{ 
+                        duration: GLOW_DURATION, 
+                        ease: 'easeInOut',
+                        scale: {
+                          repeat: stat.number !== stat.finalNumber ? Infinity : 0,
+                          repeatType: 'reverse',
+                          duration: 0.125 // Velocidad moderada para el pulso del contador
+                        }
+                      }}
                     >
                       {stat.number}
                     </motion.div>
